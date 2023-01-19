@@ -2,7 +2,6 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import CountriesList from "./components/CountriesList"
 import {useState, useEffect} from 'react'
-import countriesJSON from "./countries.json"
 import { Routes, Route } from "react-router-dom";
 import CountryDetails from "./components/CountryDetails";
 import axios from "axios"
@@ -10,7 +9,7 @@ import axios from "axios"
 
 
 function App() {
-  const [fetching, setFetching] = useState(true);
+const [fetching, setFetching] = useState(true);
 
 const [countries, setCountries] = useState([])  
 
@@ -32,7 +31,7 @@ useEffect(() => {
     <div className="row">
 <CountriesList countries={countries} />
 <Routes>
-<Route path="/:id" element={<CountryDetails countries={countries} />} />
+<Route path="/:id" element={<CountryDetails fetching={fetching} setFetching={setFetching}  setCountries={setCountries} countries={countries} />} />
 </Routes>
 </div>
 </div>

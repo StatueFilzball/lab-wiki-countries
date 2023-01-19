@@ -1,30 +1,41 @@
 import { useParams, Link } from "react-router-dom"
+import axios from "axios"
+import {useEffect, useState} from 'react'
 
 function CountryDetails(props){
-const {countries} = props
+const {countries, setCountries, fetching, setFetching} = props
 const {id} = useParams()
+const [fetchedCountry, setFetchedCountry] = useState({})
 
 const country = countries.find((country) => {
     return id === country.alpha3Code
 })
+
+useEffect(() => { 
+        axios.get(`https://ih-countries-api.herokuapp.com/countries/${id.toUpperCase()}`)
+            .then((response) => {
+            setFetchedCountry(response.data);
+            setFetching(false);
+          });
+  }, [id]);
 
     return (
 
 <div className="col-7">
 <img src={`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`} alt="country_flag"/>
 
-            <h1>{country.name.official}</h1>
+            <h1>{fetchedCountry.name.official}</h1>
             <table className="table">
               <thead></thead>
               <tbody>
                 <tr>
                   <td style={{width: "30%"}}>Capital</td>
-                  <td>{country.capital}</td>
+                  <td>{fetchedCountry.capital}</td>
                 </tr>
                 <tr>
                   <td>Area</td>
                   <td>
-                    {country.area} km
+                    {fetchedCountry.area} km
                     <sup>2</sup>
                   </td>
                 </tr>
@@ -33,7 +44,7 @@ const country = countries.find((country) => {
                   <td>
                     <ul>
 
-                    {country.borders.map((borderCode) => {
+                    {fetchedCountry.borders.map((borderCode) => {
                       const borderCountry = countries.find((item) => {
                         return borderCode === item.alpha3Code;
                       });
