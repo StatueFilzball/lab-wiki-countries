@@ -3,7 +3,7 @@ import axios from "axios"
 import {useEffect, useState} from 'react'
 
 function CountryDetails(props){
-const {countries, setCountries, fetching, setFetching} = props
+const {countries} = props
 const {id} = useParams()
 const [fetchedCountry, setFetchedCountry] = useState({})
 
@@ -15,7 +15,6 @@ useEffect(() => {
         axios.get(`https://ih-countries-api.herokuapp.com/countries/${id.toUpperCase()}`)
             .then((response) => {
             setFetchedCountry(response.data);
-            setFetching(false);
           });
   }, [id]);
 
